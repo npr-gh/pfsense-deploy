@@ -1,5 +1,5 @@
 
-## Mass deployment 
+# Mass deployment 
 
 Configure an SSH key to each pfSense for mass script updates.
 Copy and edit the example csv: 
@@ -15,14 +15,30 @@ Add the following single line to the Advanced Features-> User Parameters instead
 Include=/usr/local/etc/zabbix7/zabbix_agentd.conf.d/*.conf
 ```
 
-Add the target IP, port, and set the public key in ~/.ssh/authorized_keys for the admin user on each pfSense. Then run: 
+Add the target IP, port, and set the public key in ~/.ssh/authorized_keys for the admin user on each pfSense. 
+Make a backup of your configurations before doing script-wise modification of firewalls. A separate backup script is provided, run it using: 
 
 ```
-./deploy_all.sh -f firewalls.csv -k ~/.ssh/pfsense.key.priv 
+./backup_config_all.sh -f firewalls.csv -k ~/.ssh/pfsense.key.priv 
+```
+
+Then run: 
+
+```
+./deploy_all.sh -f firewalls.csv -k ~/.ssh/pfsense.key.priv -s deploy.sh
 ```
 
 Note: When using mass deployment: As the configuration is now stored in user_params.cfg instead of in pfSense itself, it will be wiped in an update. 
 Whenever updating all pfSense: Re-run the deployment once. 
+
+## Alternative scripts 
+
+Other scripts can be deployed the same way as long as they follow the same parameter syntax. 
+Following additional script tools exist in this repository: 
+
+### update_pkg.sh 
+
+Updates firewall and restarts web services. 
 
 ## Development note: 
 
