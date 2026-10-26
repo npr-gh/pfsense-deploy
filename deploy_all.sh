@@ -3,6 +3,7 @@
 show_help() {
 cat << EOF
 Deploy the pfsense_zbx.php script and configure the parameters to a pfSense host. 
+To write to log: add '| tee log.file' to the command.
 Usage: ${0##*/} --k PRIVATE_KEY -f firewalls.csv
 Options:
     -h|--help: Print this help and exit
@@ -49,8 +50,8 @@ do
         $SCRIPT_DIR/$SCRIPT -k $KEY -p $PORT -u admin -s $HOSTNAME -z $VER
     fi
     if [ $? -ne 0 ]; then
-        echoerr "Error updating script and settings for ${PFNAME} @ ${HOSTNAME}"
-        echo "Continuing..."
+        echoerr "Error updating script and settings for ${PFNAME} @ ${HOSTNAME}";
+        echo "Continuing...";
     fi
 done <<< "$(tail +2 "$FILE")" 
 echo 0;
